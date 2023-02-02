@@ -20,8 +20,24 @@ class TodosAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodosAdapter.V
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items.get(position)
         holder.binding.model = item
+        if (onItemClickedToDelete != null){
+            holder.binding.rightView.setOnClickListener {
+                onItemClickedToDelete?.onItemClickedToDelete(position , item)
+            }
+        }
+        if (onItemClickedToUpdate != null){
+            holder.binding.cardView.setOnClickListener {
+                onItemClickedToUpdate?.onItemClickedToUpdate(position , item)
+            }
+        }
+
     }
-    fun setData(todo : List<Todo>){
+
+    var onItemClickedToDelete : OnItemClicked? = null
+    interface OnItemClicked{
+        fun onItemClickedToDelete(position: Int , todo: Todo)
+    }
+    fun setData(todo: List<Todo>){
         items = todo
         notifyDataSetChanged()
     }
@@ -32,5 +48,9 @@ class TodosAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodosAdapter.V
 
     class ViewHolder(val binding : ItemTodoBinding) : RecyclerView.ViewHolder(binding.root){
 
+    }
+    var onItemClickedToUpdate : OnItemClickedToBeUpdated? = null
+    interface OnItemClickedToBeUpdated{
+        fun onItemClickedToUpdate(position: Int , todo: Todo)
     }
 }

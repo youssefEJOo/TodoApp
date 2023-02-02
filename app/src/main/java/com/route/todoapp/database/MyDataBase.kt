@@ -20,8 +20,6 @@ abstract class MyDataBase : RoomDatabase() {
                     context,
                     MyDataBase::class.java, "todos_database"
                 )
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
                     .build()
 
             }

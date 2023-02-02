@@ -17,20 +17,18 @@ class AddBottomSheetViewModel : ViewModel() {
 
     val titleMutableLiveData = ObservableField<String?>()
     val descriptionMutableLiveData = ObservableField<String?>()
-    val dateMutableLiveData = MutableLiveData<Long>()
     val titleErrorMutableLiveData = ObservableField<String?>()
     val descriptionErrorMutableLiveData = ObservableField<String?>()
-    val dateErrorMutableLiveData = MutableLiveData<Long>()
     val loadingDialogMutableData = MutableLiveData<Boolean>()
     val messageMutableData = MutableLiveData<String>()
     val dismissBottomSheet = MutableLiveData<Boolean>()
-    //val clearTime = MutableLiveData<Boolean>()
+    val clearTime = MutableLiveData<Boolean>()
 
     fun addTodo(currentDate : Long , context: Context){
         viewModelScope.launch {
             try {
                 if (validate()){
-                    //clearTime.value = true
+                    clearTime.value = true
                     var todo = Todo(
                         todoTitle = titleMutableLiveData.get(),
                         todoDescription = descriptionMutableLiveData.get(),
@@ -38,16 +36,9 @@ class AddBottomSheetViewModel : ViewModel() {
                         isDone = false
                     )
                     MyDataBase.getInstance(context).getTodoDao().insertTodo(todo)
-                    Log.e("add Todo" , "${todo.todoTitle.toString()}")
                     loadingDialogMutableData.value = false
                     messageMutableData.value = "Task Added Successfully"
                     dismissBottomSheet.value = true
-//                showMessage("Task Added Successfully" , "Ok" , posAction = { dialog, which ->
-//                    dialog.dismiss()
-//                    dismiss()
-//                }, cancelable = false)
-
-//                            Toast.makeText(requireContext() , "The Todo Is Added" , Toast.LENGTH_LONG).show()
                 }
             }catch (e : Exception){
                 dismissBottomSheet.value = false
@@ -73,12 +64,6 @@ class AddBottomSheetViewModel : ViewModel() {
         }else{
             descriptionErrorMutableLiveData.set(null)
         }
-//        if (dataBinding.date.text.toString().isNullOrBlank()){
-//            dataBinding.date.error = "Please Enter Date"
-//            valid = false
-//        }else{
-//            dataBinding.date.error = null
-//        }
 
         return valid
     }

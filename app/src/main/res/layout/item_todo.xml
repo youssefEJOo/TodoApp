@@ -10,8 +10,45 @@
             type="Todo" />
 
     </data>
+    <com.zerobranch.layout.SwipeLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:draggedItem="@id/card_view"
+        app:rightItem="@id/right_view"
+        app:swipeDirection="left"
+        >
+        <ImageView
+            android:id="@+id/right_view"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="#ff5722"
+            android:gravity="center"
+            android:src="@drawable/ic_delete"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:paddingBottom="25dp"
+            android:text="Delete"
+            />
+
+<!--        <TextView-->
+<!--            android:id="@+id/delete_tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Delete"-->
+<!--            android:layout_marginTop="75dp"-->
+<!--            android:layout_marginStart="40dp"-->
+<!--            android:background="#eeeeee"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:paddingEnd="10dp"-->
+<!--            android:paddingStart="15dp"-->
+<!--            android:textSize="15sp"/>-->
+
+
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="20dp"
@@ -22,10 +59,12 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="18dp"
             >
+
 
             <View
                 android:id="@+id/view"
@@ -82,4 +121,5 @@
 
 
     </androidx.cardview.widget.CardView>
+    </com.zerobranch.layout.SwipeLayout>
 </layout>

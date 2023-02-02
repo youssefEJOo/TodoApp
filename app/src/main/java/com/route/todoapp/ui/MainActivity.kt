@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.route.todoapp.R
-import com.route.todoapp.database.MyDataBase
 import com.route.todoapp.databinding.ActivityMainBinding
 import com.route.todoapp.ui.fragment.add.AddBottomSheetFragment
 import com.route.todoapp.ui.fragment.list.ListFragment
@@ -22,7 +20,15 @@ class MainActivity : AppCompatActivity() {
         showFragment(listFragment)
         showBottomNavigationItem()
         showBottomSheet()
-
+//        listFragment.onItemClickedToBeUpdated = object : ListFragment.OnItemClicked{
+//            override fun onItemClickedToBeUpdated(position: Int, todo: Todo) {
+//                val intent  = Intent(this@MainActivity , UpdateTodoActivity::class.java )
+//                intent.putExtra("todo" , todo)
+//                startActivity(intent)
+//                Log.e("MainActivity" , "return value${todo.todoTitle?.get(0)}")
+//            }
+//
+//        }
 
 
     }
@@ -30,11 +36,6 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomSheet() {
         dataBinding.floatingActionBottom.setOnClickListener {
             val bottomSheet = AddBottomSheetFragment()
-            bottomSheet.onClickListener = object : AddBottomSheetFragment.OnClickListener{
-                override fun onClickToRefresh() {
-
-                }
-            }
             bottomSheet.show(supportFragmentManager , "")
         }
     }
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
             return@setOnItemSelectedListener true
         }
+
     }
 
     private fun showFragment(fragment: Fragment) {

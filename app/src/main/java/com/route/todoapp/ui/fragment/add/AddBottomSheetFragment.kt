@@ -55,16 +55,17 @@ class AddBottomSheetFragment : BaseBottomSheet() {
             showDatePicker()
         }
         dataBinding.addTodo.setOnClickListener {
+            viewModel.clearTime.observe(viewLifecycleOwner){
+                if (it){
+                    currentDate.clearTime()
+                }
+            }
             viewModel.addTodo(context = requireContext() , currentDate = currentDate.timeInMillis )
-            onClickListener?.onClickToRefresh()
         }
         subscribeToLiveData()
 
     }
     fun subscribeToLiveData(){
-//        viewModel.clearTime.observe(viewLifecycleOwner){
-//            currentDate.clearTime()
-//        }
         viewModel.loadingDialogMutableData.observe(viewLifecycleOwner){
             if (it){
                 showLoadingDialog()
@@ -103,60 +104,9 @@ class AddBottomSheetFragment : BaseBottomSheet() {
         datePicker.show()
     }
 
-    var onClickListener : OnClickListener? = null
-    interface OnClickListener{
-        fun onClickToRefresh()
-    }
 
-//            fun addTodo(){
-//                    try {
-//                        if (validate()){
-//                            currentDate.clearTime()
-//                            var todo = Todo(
-//                                todoTitle = dataBinding.titleEditText.editText?.text.toString(),
-//                                todoDescription = dataBinding.descriptionEditText.editText?.text.toString(),
-//                                todoDate = currentDate.timeInMillis,
-//                                isDone = false
-//                            )
-//                            MyDataBase.getInstance(requireContext()).getTodoDao().insertTodo(todo)
-//                            hideLoading()
-//                            showMessage("Task Added Successfully" , "Ok" , posAction = { dialog, which ->
-//                                        dialog.dismiss()
-//                                        dismiss()
-//                            }, cancelable = false)
-//
-////                            Toast.makeText(requireContext() , "The Todo Is Added" , Toast.LENGTH_LONG).show()
-//                        }
-//                    }catch (e : Exception){
-//                        showLoadingDialog()
-//                        Log.e("addNote" , "errorMessage${e.message}")
-//                    }
-//
-//            }
-//
-//            fun validate():Boolean{
-//                var valid = true
-//                if (dataBinding.titleEditText.editText?.text.toString().isNullOrBlank()){
-//                    dataBinding.titleEditText.error = "Please Enter Title"
-//                    valid = false
-//                }else{
-//                    dataBinding.titleEditText.error = null
-//                }
-//                if (dataBinding.descriptionEditText.editText?.text.toString().isNullOrBlank()){
-//                    dataBinding.descriptionEditText.error = "Please Enter Description"
-//                    valid = false
-//                }else{
-//                    dataBinding.descriptionEditText.error = null
-//                }
-//                if (dataBinding.date.text.toString().isNullOrBlank()){
-//                    dataBinding.date.error = "Please Enter Date"
-//                    valid = false
-//                }else{
-//                    dataBinding.date.error = null
-//                }
-//
-//                return valid
-//            }
+
+
 
 
 
