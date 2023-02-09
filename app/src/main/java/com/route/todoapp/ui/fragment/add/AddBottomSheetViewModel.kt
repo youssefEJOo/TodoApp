@@ -6,11 +6,11 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.route.todoapp.clearTime
 import com.route.todoapp.database.MyDataBase
 import com.route.todoapp.model.Todo
+import com.route.todoapp.repos.TodoRepository
+import com.route.todoapp.repos.TodoRepositoryImpl
 import kotlinx.coroutines.launch
-import java.sql.Time
 import java.util.*
 
 class AddBottomSheetViewModel : ViewModel() {
@@ -23,6 +23,11 @@ class AddBottomSheetViewModel : ViewModel() {
     val messageMutableData = MutableLiveData<String>()
     val dismissBottomSheet = MutableLiveData<Boolean>()
     val clearTime = MutableLiveData<Boolean>()
+    lateinit var todoRepository : TodoRepository
+
+    init {
+        todoRepository = TodoRepositoryImpl(MyDataBase.getInstance())
+    }
 
     fun addTodo(currentDate : Long , context: Context){
         viewModelScope.launch {
@@ -35,7 +40,8 @@ class AddBottomSheetViewModel : ViewModel() {
                         todoDate = currentDate,
                         isDone = false
                     )
-                    MyDataBase.getInstance(context).getTodoDao().insertTodo(todo)
+//                    MyDataBase.getInstance().getTodoDao().insertTodo(todo)
+                    todoRepository.insertTodo(todo)
                     loadingDialogMutableData.value = false
                     messageMutableData.value = "Task Added Successfully"
                     dismissBottomSheet.value = true

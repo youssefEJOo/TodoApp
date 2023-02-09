@@ -12,13 +12,13 @@ import java.util.*
 data class Todo(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
-    val todoId: Int? = null,
+     val todoId: Int? = null,
     @ColumnInfo
-    var todoTitle: String? = null,
+     var todoTitle: String? = null,
     @ColumnInfo
-    var todoDescription: String? = null,
+     var todoDescription: String? = null,
     @ColumnInfo
-    var todoDate: Long? = null,
+     var todoDate: Long? = null,
     @ColumnInfo
-    var isDone: Boolean? = null
+     var isDone: Boolean? = null
 ): Serializable

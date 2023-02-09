@@ -5,8 +5,11 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.route.todoapp.database.MyDataBase
 import com.route.todoapp.database.daos.TodoDao
 import com.route.todoapp.model.Todo
+import com.route.todoapp.repos.TodoRepository
+import com.route.todoapp.repos.TodoRepositoryImpl
 import kotlinx.coroutines.launch
 
 class UpdateTodoViewModel(val dao: TodoDao , val todo : Todo) : ViewModel() {
@@ -17,6 +20,11 @@ class UpdateTodoViewModel(val dao: TodoDao , val todo : Todo) : ViewModel() {
     val descriptionErrorMutableLiveData = ObservableField<String?>()
     val dateMutableLiveData = ObservableField<String?>()
     val finishActivityMutableList = MutableLiveData<Boolean>()
+    lateinit var todoRepository: TodoRepository
+
+    init {
+        todoRepository = TodoRepositoryImpl(MyDataBase.getInstance())
+    }
 
 
     fun setData(){
@@ -32,7 +40,7 @@ class UpdateTodoViewModel(val dao: TodoDao , val todo : Todo) : ViewModel() {
                         todo.todoTitle = titleMutableLiveData.get()
                         todo.todoDescription = descriptionMutableLiveData.get()
                         todo.todoDate = dateMutableLiveData.get()?.toLong()
-                        dao.updateTodo(todo)
+                        todoRepository.updateTodo(todo)
                         finishActivityMutableList.value = true
                 }else{
                         finishActivityMutableList.value = false

@@ -14,7 +14,7 @@ abstract class MyDataBase : RoomDatabase() {
 
     companion object{
         private var myDataBase : MyDataBase? = null
-        fun getInstance(context: Context):MyDataBase{
+        fun init(context: Context){
             if (myDataBase == null){
                  myDataBase = Room.databaseBuilder(
                     context,
@@ -23,7 +23,12 @@ abstract class MyDataBase : RoomDatabase() {
                     .build()
 
             }
+
+        }
+
+        fun getInstance():MyDataBase{
             return myDataBase!!
         }
+
     }
 }

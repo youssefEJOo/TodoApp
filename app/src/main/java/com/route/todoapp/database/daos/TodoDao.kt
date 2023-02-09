@@ -19,8 +19,8 @@ interface TodoDao {
     suspend fun deleteTodo(todo: Todo)
 
     @Query("select * from Todo")
-     fun getAllTodos(): LiveData<MutableList<Todo>>
+    fun getAllTodos(): LiveData<MutableList<Todo>>
 
     @Query("select * from Todo where todoDate = :date ")
-     fun getTodosByDate(date : Long): LiveData<MutableList<Todo>>
+    fun getTodosByDate(date : Long): LiveData<MutableList<Todo>>
 }

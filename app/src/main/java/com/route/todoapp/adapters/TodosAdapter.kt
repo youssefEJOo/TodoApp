@@ -8,7 +8,7 @@ import com.route.todoapp.R
 import com.route.todoapp.databinding.ItemTodoBinding
 import com.route.todoapp.model.Todo
 
-class TodosAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodosAdapter.ViewHolder>(){
+class TodosAdapter(var items : MutableList<Todo>) : RecyclerView.Adapter<TodosAdapter.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +37,7 @@ class TodosAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodosAdapter.V
     interface OnItemClicked{
         fun onItemClickedToDelete(position: Int , todo: Todo)
     }
-    fun setData(todo: List<Todo>){
+    fun setData(todo: MutableList<Todo>){
         items = todo
         notifyDataSetChanged()
     }

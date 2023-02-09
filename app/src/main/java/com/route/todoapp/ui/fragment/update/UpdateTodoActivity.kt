@@ -18,25 +18,25 @@ class UpdateTodoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_update_todo)
         todo = intent.getSerializableExtra("todo") as Todo
-        val dao = MyDataBase.getInstance(this).getTodoDao()
+        val dao = MyDataBase.getInstance().getTodoDao()
         viewModel = UpdateTodoViewModel(dao , todo)
         dataBinding.vm = viewModel
         viewModel.setData()
         dataBinding.editTodo.setOnClickListener {
             viewModel.updateData()
         }
-        viewModel.finishActivityMutableList.observe(this){
-                if (it != true){
-                    return@observe
-                }else{
-                    finish()
-                }
-        }
-
-
-
+        subscribeToLiveData()
     }
 
+    private fun subscribeToLiveData() {
+        viewModel.finishActivityMutableList.observe(this){
+            if (it != true){
+                return@observe
+            }else{
+                finish()
+            }
+        }
+    }
 
 
 }
