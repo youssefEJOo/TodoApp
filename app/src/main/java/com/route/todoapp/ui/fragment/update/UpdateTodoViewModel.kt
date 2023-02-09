@@ -14,12 +14,6 @@ import kotlinx.coroutines.launch
 
 class UpdateTodoViewModel(val dao: TodoDao , val todo : Todo) : ViewModel() {
 
-    val titleMutableLiveData = ObservableField<String?>()
-    val titleErrorMutableLiveData = ObservableField<String?>()
-    val descriptionMutableLiveData = ObservableField<String?>()
-    val descriptionErrorMutableLiveData = ObservableField<String?>()
-    val dateMutableLiveData = ObservableField<String?>()
-    val finishActivityMutableList = MutableLiveData<Boolean>()
     lateinit var todoRepository: TodoRepository
 
     init {
@@ -27,47 +21,17 @@ class UpdateTodoViewModel(val dao: TodoDao , val todo : Todo) : ViewModel() {
     }
 
 
-    fun setData(){
-        titleMutableLiveData.set(todo.todoTitle)
-        descriptionMutableLiveData.set(todo.todoDescription)
-        dateMutableLiveData.set(todo.todoDate.toString())
-    }
 
-    fun updateData(){
+    fun updateDataBase( todo : Todo){
         viewModelScope.launch {
             try {
-                if(valid()){
-                        todo.todoTitle = titleMutableLiveData.get()
-                        todo.todoDescription = descriptionMutableLiveData.get()
-                        todo.todoDate = dateMutableLiveData.get()?.toLong()
-                        todoRepository.updateTodo(todo)
-                        finishActivityMutableList.value = true
-                }else{
-                        finishActivityMutableList.value = false
-                }
-            }catch (e:Exception){
-                        finishActivityMutableList.value = false
-                Log.e("updateData" , e.message.toString() )
+                todoRepository.updateTodo(todo)
+            }catch (ex: Exception){
+                throw ex
             }
 
         }
 
     }
 
-    fun valid():Boolean{
-        var valid  = true
-        if (titleMutableLiveData.get().isNullOrBlank()){
-            valid = false
-            titleErrorMutableLiveData.set("please Enter the title Valid")
-        }else{
-            titleErrorMutableLiveData.set(null)
-        }
-        if (descriptionMutableLiveData.get().isNullOrBlank()){
-            valid = false
-            descriptionErrorMutableLiveData.set("please Enter the Description Valid")
-        }else{
-            descriptionErrorMutableLiveData.set(null)
-        }
-        return valid
-    }
 }
